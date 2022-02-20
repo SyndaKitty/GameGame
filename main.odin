@@ -11,7 +11,8 @@ import "log"
 import "data"
 
 window: glfw.WindowHandle
-sprite: ^data.Entity
+sprite_a: ^data.Entity
+sprite_b: ^data.Entity
 running := b32(true)
 
 main :: proc() {
@@ -47,19 +48,27 @@ main :: proc() {
 
 init :: proc() {
     log.write("init")
-    sprite = create_entity()
-    sprite.x = 0
-    sprite.y = 0
-    sprite.texture = load_texture("sprites/sprite.png")
+    sprite_a = create_entity()
+    sprite_a.x = -0.5
+    sprite_a.y = 0
+    sprite_a.texture = load_texture("sprites/sprite.png")
+
+    sprite_b = create_entity()
+    sprite_b.x = 0.5
+    sprite_b.y = 0
+    sprite_b.texture = load_texture("sprites/sprite2.png")
 }
 
 update :: proc() {
-    sprite.transform = translation(sprite.x, sprite.y) * rotation(f32(glfw.GetTime()))
+    t := f32(glfw.GetTime())
+    sprite_a.transform = translation(sprite_a.x, sprite_a.y) * rotation(t) * scale(math.sin(t))
+    sprite_b.transform = translation(sprite_b.x, sprite_b.y) * rotation(-t) * scale(math.sin(t + math.PI / 2))
 }
 
 draw :: proc() {
     start_frame()
-    draw_entity(sprite)
+    draw_entity(sprite_a)
+    draw_entity(sprite_b)
     end_frame()
 }
 
@@ -102,6 +111,15 @@ translation :: proc(x, y: f32) -> matrix[4, 4]f32 {
         1, 0, 0, x,
         0, 1, 0, y,
         0, 0, 1, 0,
+        0, 0, 0, 1,
+    };
+}
+
+scale :: proc(s: f32) -> matrix[4, 4]f32 {
+    return matrix[4, 4]f32 {
+        s, 0, 0, 0,
+        0, s, 0, 0,
+        0, 0, s, 0,
         0, 0, 0, 1,
     };
 }

@@ -127,6 +127,8 @@ draw_texture :: proc(texture: data.Texture, transform: ^matrix[4, 4]f32, program
     // log.write("ActiveTexture", gl.GetError())
     gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, texture.width, texture.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, texture.data)
     // log.write("TexImage2D", gl.GetError())
+    gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+    gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
     gl.GenerateMipmap(gl.TEXTURE_2D)
     // log.write("GenerateMipMap", gl.GetError())
     gl.UseProgram(program.handle)
