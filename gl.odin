@@ -72,6 +72,8 @@ setup_opengl :: proc() -> bool {
 
     gl.ActiveTexture(gl.TEXTURE0)
     gl.BindTexture(gl.TEXTURE_2D, textures[0].handle)
+    gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+    gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
 
     gl.ClearColor(0.2, 0.3, 0.3, 1.0)
 
@@ -123,22 +125,12 @@ draw_entity :: proc(entity: ^data.Entity, program := main_program) {
 }
 
 draw_texture :: proc(texture: data.Texture, transform: ^matrix[4, 4]f32, program := main_program) {
-    // gl.ActiveTexture(gl.TEXTURE0)
-    // log.write("ActiveTexture", gl.GetError())
     gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, texture.width, texture.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, texture.data)
-    // log.write("TexImage2D", gl.GetError())
-    gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-    gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
     gl.GenerateMipmap(gl.TEXTURE_2D)
-    // log.write("GenerateMipMap", gl.GetError())
     gl.UseProgram(program.handle)
-    // log.write("UseProgram", gl.GetError())
     gl.Uniform1i(program.uniforms["MainTex"].location, 0)
-    // log.write("Uniform1i", gl.GetError())
     gl.UniformMatrix4fv(program.uniforms["transform"].location, 1, false, &transform[0, 0])
-    // log.write("UniformMatrix4fv", gl.GetError())
     gl.DrawElements(gl.TRIANGLES, len(rectangle_indices), gl.UNSIGNED_INT, nil)
-    // log.write("DrawElements", gl.GetError())
 }
 
 end_frame :: proc() {
