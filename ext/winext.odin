@@ -1,4 +1,4 @@
-package winext
+package ext
 
 import win "core:sys/windows"
 

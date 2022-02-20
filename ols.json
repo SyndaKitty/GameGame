@@ -1,0 +1,17 @@
+{
+    "collections": [{ "name": "core", "path": "c:/projects/Odin/core" },
+                    { "name": "log", "path": "c:/projects/gamegame/data" },
+                    { "name": "log", "path": "c:/projects/gamegame/log" },
+                    { "name": "perf", "path": "c:/projects/gamegame/"}
+                ],
+    "thread_pool_count": 4,
+    "enable_semantic_tokens": false,
+    "enable_document_symbols": true,
+    "enable_hover": true,
+    "enable_format": true,
+    "enable_snippets": true,
+    "formatter": {
+        "tabs": false,
+      "characters": 90
+    }
+  }

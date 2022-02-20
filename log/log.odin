@@ -9,7 +9,7 @@ import "core:sync"
 
 import win "core:sys/windows"
 import win32 "core:sys/win32"
-import "../winext"
+import "../ext"
 
 @private
 log_console_fields :: struct {
@@ -146,7 +146,7 @@ _create_log_file :: proc() {
 @private
 _format_message :: proc(args: ..any, sep := " ") -> string {
     t: win.SYSTEMTIME
-    winext.GetLocalTime(&t)
+    ext.GetLocalTime(&t)
     
     message := fmt.tprint(args=args, sep=sep)
     line := fmt.tprintf("%2d:%2d:%2d.%3d: %s\n", t.hour, t.minute, t.second, t.milliseconds, message)
